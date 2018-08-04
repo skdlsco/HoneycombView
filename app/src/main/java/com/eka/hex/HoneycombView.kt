@@ -35,7 +35,7 @@ class HoneycombView : RelativeLayout {
                 cell.cellData = cellData
                 cell.strokeWidth = cellStrokeWidth
                 cell.setOnClickListener {
-                    cellData.onClick.invoke(it)
+                    cellData.onClick.invoke(it, i, j)
                 }
                 cells.add(cell)
             }
