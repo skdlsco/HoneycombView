@@ -13,6 +13,7 @@ class HoneycombView : RelativeLayout {
     var cells = ArrayList<HexagonView>()
     var cellDistance: Float = 0f
     var cellWidth: Float = 0f
+    var cellStrokeWidth: Float = 0f
 
 
     constructor(context: Context?) : super(context)
@@ -32,6 +33,10 @@ class HoneycombView : RelativeLayout {
                 cell.cellWidth = cellWidth
                 cell.setPadding(cellDistance.toInt(), cellDistance.toInt(), cellDistance.toInt(), cellDistance.toInt())
                 cell.cellData = cellData
+                cell.strokeWidth = cellStrokeWidth
+                cell.setOnClickListener {
+                    cellData.onClick.invoke(it)
+                }
                 cells.add(cell)
             }
         }
@@ -50,16 +55,18 @@ class HoneycombView : RelativeLayout {
         cells.forEachIndexed { i, v ->
             val layoutParams = RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT).apply {
                 if (i - spos == 0) {
-                    addRule(ALIGN_PARENT_LEFT)
+                    addRule(ALIGN_PARENT_TOP)
+                    if (p % 2 != 0)
+                        topMargin = (cellWidth / 2 + cellDistance + cellStrokeWidth).toInt()
+
                 } else {
-                    addRule(RIGHT_OF, i)
+                    addRule(ALIGN_TOP, i)
+                    topMargin = ((cellWidth + cellDistance + cellStrokeWidth).toInt())
                 }
-                if (p % 2 != 0 && i - spos == 0) {
-                    leftMargin = (cellWidth / 2 + cellDistance).toInt()
-                }
+
                 if (p != 0) {
-                    addRule(ALIGN_TOP, spos)
-                    topMargin = (cellWidth / Math.pow(3.0, 0.5) * 1.5 + cellDistance).toInt()
+                    addRule(RIGHT_OF, spos)
+                    leftMargin = -(cellWidth / Math.pow(3.0, 0.5) * 0.5 + cellDistance + cellStrokeWidth * 1.5).toInt()
                 }
             }
             v.layoutParams = layoutParams
@@ -88,6 +95,7 @@ class HoneycombView : RelativeLayout {
     private fun setTypedArray(typedArray: TypedArray) {
         cellDistance = typedArray.getDimension(R.styleable.HoneycombView_cellDistance, 0f)
         cellWidth = typedArray.getDimension(R.styleable.HoneycombView_cellWidth, 0f)
+        cellStrokeWidth = typedArray.getDimension(R.styleable.HoneycombView_cellStrokeWidth, 0f)
         typedArray.recycle()
     }
 }

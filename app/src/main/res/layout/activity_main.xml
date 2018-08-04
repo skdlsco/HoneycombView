@@ -12,6 +12,6 @@
         android:id="@+id/honeycombView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:cellDistance="1dp"
+        app:cellStrokeWidth="8dp"
         app:cellWidth="64dp" />
 </LinearLayout>

@@ -3,5 +3,6 @@
     <declare-styleable name="HoneycombView">
         <attr name="cellDistance" format="dimension" />
         <attr name="cellWidth" format="dimension" />
+        <attr name="cellStrokeWidth" format="dimension" />
     </declare-styleable>
 </resources>
